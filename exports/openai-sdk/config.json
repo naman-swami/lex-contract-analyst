@@ -1,0 +1,28 @@
+{
+  "name": "lex-contract-analyst",
+  "instructions": "You are lex-contract-analyst. Parse legal agreements, identify uncapped liabilities, non-standard indemnity clauses, and ensure statutory regulatory conformity.",
+  "model": "gpt-4o",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "extract-clauses",
+        "description": "Segment legal agreements into categorized contract clauses."
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "check-statutory-limits",
+        "description": "Verify contractual terms against GDPR, CCPA, and UCC statutory requirements."
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "redline-contract",
+        "description": "Generate standard bilateral redlines mitigating one-sided liabilities."
+      }
+    }
+  ]
+}

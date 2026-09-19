@@ -1,0 +1,29 @@
+annotations:
+  cost: none
+  read_only: true
+  requires_confirmation: false
+description: Generate standard bilateral redlines mitigating one-sided liabilities.
+input_schema:
+  additionalProperties: false
+  properties:
+    risk_level:
+      type: string
+    target_clause:
+      type: string
+  required:
+  - target_clause
+  type: object
+name: redline-contract
+output_schema:
+  additionalProperties: false
+  properties:
+    confidence:
+      type: number
+    data:
+      type: string
+    status:
+      type: string
+  required:
+  - status
+  - data
+  type: object
