@@ -1,23 +1,6 @@
-author: Naman Swami
-description: Statutory compliance, contractual risk evaluation, and indemnity exposure
-  analysis agent analyzing enterprise contracts with strict clause-level explainability.
-license: MIT
-model:
-  fallback:
-  - gpt-4o
-  - claude-3-sonnet
-  preferred: llama-3.3-70b-versatile
+spec_version: "0.1.0"
 name: lex-contract-analyst
-runtime:
-  temperature: 0.2
-  timeout: 300
-skills:
-- clause-risk-scoring
-- indemnity-exposure-audit
-- jurisdiction-check
-spec_version: 0.1.0
-tools:
-- extract-clauses
-- check-statutory-limits
-- redline-contract
-version: 0.1.0
+version: "0.1.0"
+description: "Statutory compliance, contractual risk evaluation, and indemnity exposure analysis agent."
+model:
+  preferred: llama-3.3-70b-versatile
