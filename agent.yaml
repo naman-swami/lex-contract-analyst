@@ -1,17 +1,6 @@
-author:
-  email: kgfg00100@gmail.com
-  github: naman-swami
-  name: Naman Swami
-categories:
-- Legal
+author: Naman Swami
 description: Statutory compliance, contractual risk evaluation, and indemnity exposure
   analysis agent analyzing enterprise contracts with strict clause-level explainability.
-identity:
-  duties: DUTIES.md
-  explainability: EXPLAINABILITY.md
-  fallback_prompt: AGENTS.md
-  rules: RULES.md
-  soul: SOUL.md
 license: MIT
 model:
   fallback:
@@ -20,32 +9,15 @@ model:
   preferred: llama-3.3-70b-versatile
 name: lex-contract-analyst
 runtime:
-  default_framework: openai-sdk
-  exports_directory: exports/
-  supported_frameworks:
-  - openai-sdk
-  - crewai
-  - claude-code
-  - lyzr
-  - langchain
+  temperature: 0.2
+  timeout: 300
 skills:
-- name: clause-risk-scoring
-  path: skills/clause-risk-scoring/
-- name: indemnity-exposure-audit
-  path: skills/indemnity-exposure-audit/
-- name: jurisdiction-check
-  path: skills/jurisdiction-check/
+- clause-risk-scoring
+- indemnity-exposure-audit
+- jurisdiction-check
 spec_version: 0.1.0
-tags:
-- lex
-- legal
-- opengap
-- portable-agent
 tools:
-- name: extract-clauses
-  path: tools/extract-clauses.yaml
-- name: check-statutory-limits
-  path: tools/check-statutory-limits.yaml
-- name: redline-contract
-  path: tools/redline-contract.yaml
+- extract-clauses
+- check-statutory-limits
+- redline-contract
 version: 0.1.0
