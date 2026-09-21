@@ -56,7 +56,7 @@ lex-contract-analyst/
 │   └── legal_clause_taxonomy.md     # Legal risk taxonomy reference
 ├── tests/
 │   └── test_agent.py                # Contract NLP test suite
-├── main.py                          # Legal intelligence CLI
+├── analyze.py                          # Legal intelligence CLI
 └── requirements.txt
 ```
 
@@ -67,5 +67,5 @@ lex-contract-analyst/
 pytest tests/ -v
 
 # Analyze benchmark NDA sample
-python main.py --demo
+python analyze.py --demo
 ```
