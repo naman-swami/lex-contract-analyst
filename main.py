@@ -1,29 +1,27 @@
-import json
 import argparse
-from src.legal_engine import ContractRiskAnalyzer
+import os
+from parsers.clause_segmenter import ContractClauseAnalyzer
 
 def main():
-    parser = argparse.ArgumentParser(description="Lex Contract Risk Analyzer CLI")
-    parser.add_argument("--demo", action="store_true", help="Run simulated commercial SaaS agreement audit")
+    parser = argparse.ArgumentParser(description="Lex Contract Intelligence CLI")
+    parser.add_argument("--demo", action="store_true", help="Analyze benchmark NDA sample")
     args = parser.parse_args()
 
-    analyzer = ContractRiskAnalyzer()
-    sample_contract = {
-        "contract_id": "MSA-ENTERPRISE-882",
-        "title": "Cloud SaaS Enterprise Agreement",
-        "annual_contract_value_usd": 120000,
-        "liability_cap_usd": 10000000,
-        "uncapped_liability": True,
-        "indemnity_clause": "unilateral_vendor_broad",
-        "transfers_preexisting_ip": True
-    }
+    contract_file = os.path.join(os.path.dirname(__file__), "fixtures", "contracts", "sample_nda.txt")
 
-    report = analyzer.evaluate_clauses(sample_contract)
-    print("="*60)
-    print(" LEX LEGAL CONTRACT AUDIT & REDLINE ADVISORY")
-    print("="*60)
-    print(json.dumps(report, indent=2))
-    print("="*60)
+    if args.demo:
+        res = ContractClauseAnalyzer.analyze_file(contract_file)
+        print("=== LEX CONTRACT INTELLIGENCE ANALYSIS REPORT ===\n")
+        print(f"Document: {os.path.basename(contract_file)}")
+        print(f"Overall Posture: {res['overall_posture']} | High Risk Clauses: {res['high_risk_clauses']}\n")
+        for f in res["findings"]:
+            print(f"Section {f['section_index']}: [{f['clause_type']}] Tier: {f['risk_tier']}")
+            print(f"  Excerpt: {f['snippet']}")
+            if f["redline_recommendation"]:
+                print(f"  Recommendation: {f['redline_recommendation']}")
+            print("-" * 50)
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()

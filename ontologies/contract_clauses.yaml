@@ -1,0 +1,20 @@
+clauses:
+  - type: INDEMNIFICATION
+    risk_level: HIGH
+    keywords: ["indemnify", "hold harmless", "defend", "liabilities"]
+    redline_guidance: "Limit to direct third-party claims and cap at aggregate contract fees."
+
+  - type: LIMITATION_OF_LIABILITY
+    risk_level: HIGH
+    keywords: ["limitation of liability", "consequential damages", "aggregate liability"]
+    redline_guidance: "Ensure mutual exclusion of indirect, punitive, or consequential damages."
+
+  - type: TERMINATION_FOR_CONVENIENCE
+    risk_level: MEDIUM
+    keywords: ["terminate for convenience", "without cause", "written notice"]
+    redline_guidance: "Require minimum 30 days prior written notice."
+
+  - type: GOVERNING_LAW
+    risk_level: LOW
+    keywords: ["governing law", "jurisdiction", "exclusive venue"]
+    redline_guidance: "Align jurisdiction with home jurisdiction (e.g., State of Delaware or California)."

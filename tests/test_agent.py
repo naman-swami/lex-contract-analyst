@@ -1,31 +1,25 @@
+import os
 import pytest
-from src.legal_engine import ContractRiskAnalyzer
+from parsers.clause_segmenter import ContractClauseAnalyzer
 
-def test_safe_standard_contract():
-    analyzer = ContractRiskAnalyzer()
-    contract = {
-        "contract_id": "SAFE-01",
-        "annual_contract_value_usd": 100000,
-        "liability_cap_usd": 100000,
-        "uncapped_liability": False,
-        "indemnity_clause": "mutual",
-        "transfers_preexisting_ip": False
-    }
-    res = analyzer.evaluate_clauses(contract)
-    assert res["overall_risk_score"] < 50
-    assert res["verdict"] == "ACCEPTABLE_WITH_STANDARD_TERMS"
-    assert len(res["flagged_clauses"]) == 0
+def test_indemnity_clause_detection():
+    clause = "Recipient agrees to unconditionally indemnify, defend, and hold harmless Disclosing Party without monetary limitation."
+    res = ContractClauseAnalyzer.analyze_document(clause)
+    assert res["total_clauses_detected"] == 1
+    assert res["high_risk_clauses"] == 1
+    assert res["findings"][0]["clause_type"] == "INDEMNIFICATION"
+    assert res["findings"][0]["risk_tier"] == "HIGH"
 
-def test_high_risk_uncapped_liability():
-    analyzer = ContractRiskAnalyzer()
-    contract = {
-        "contract_id": "RISK-02",
-        "annual_contract_value_usd": 50000,
-        "uncapped_liability": True,
-        "indemnity_clause": "unilateral_vendor_broad",
-        "transfers_preexisting_ip": True
-    }
-    res = analyzer.evaluate_clauses(contract)
-    assert res["overall_risk_score"] >= 80
-    assert res["verdict"] == "HIGH_RISK_REJECT_OR_REDLINE"
-    assert len(res["flagged_clauses"]) == 3
+def test_standard_governing_law():
+    clause = "This agreement shall be governed by the laws of the State of Delaware."
+    res = ContractClauseAnalyzer.analyze_document(clause)
+    assert res["total_clauses_detected"] == 1
+    assert res["high_risk_clauses"] == 0
+    assert res["findings"][0]["clause_type"] == "GOVERNING_LAW"
+
+def test_benchmark_nda_file():
+    doc_path = os.path.join(os.path.dirname(__file__), "..", "fixtures", "contracts", "sample_nda.txt")
+    res = ContractClauseAnalyzer.analyze_file(doc_path)
+    assert res["total_clauses_detected"] >= 3
+    assert res["high_risk_clauses"] >= 1
+    assert res["overall_posture"] == "UNFAVORABLE_REVISE"
