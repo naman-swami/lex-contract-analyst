@@ -1,71 +1,44 @@
-# Lex Contract Intelligence & Clause Analyst
+# Lex Commercial Contract Analyst
 
-[![OpenGAP](https://img.shields.io/badge/OpenGAP-0.1.0-blue.svg)](agent.yaml)
-[![LegalTech](https://img.shields.io/badge/Domain-Contract_Intelligence_NLP-darkblue.svg)](docs/legal_clause_taxonomy.md)
-[![Ontology](https://img.shields.io/badge/Standard-ABA_Clause_Taxonomy-teal.svg)](docs/legal_clause_taxonomy.md)
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](requirements.txt)
-[![CI](https://img.shields.io/badge/CI-Passing-brightgreen.svg)](.github/workflows/ci.yml)
+> **Automated Legal Clause Segmentation & Risk Exposure Assessment Platform**  
+> Parsing Non-Disclosure Agreements, Master Services Agreements, and Vendor Contracts.
 
-A legal contract analysis engine automating clause classification, unilateral indemnification exposure detection, and redline recommendation generation.
+---
 
-```
-                    ┌─────────────────────────┐
-                    │ Raw Legal Agreement Text│
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │ parsers/clause_segment  │
-                    └────────────┬────────────┘
-                                 │
-                 ┌───────────────┴───────────────┐
-                 ▼                               ▼
-      ┌─────────────────────┐         ┌─────────────────────┐
-      │  Clause Taxonomy    │         │  Unilateral Risk    │
-      │  (Indemnity / Term) │         │ (Uncapped Liability)│
-      └──────────┬──────────┘         └──────────┬──────────┘
-                 │                               │
-                 └───────────────┬───────────────┘
-                                 ▼
-                    ┌─────────────────────────┐
-                    │ Redline Recommendation  │
-                    │ (UNFAVORABLE_REVISE)    │
-                    └─────────────────────────┘
+### Clause Risk Taxonomy
+
+| Legal Clause Category | Standard Market Language | High-Risk Redline Trigger |
+| :--- | :--- | :--- |
+| **Indemnification** | Mutual indemnification for third-party IP infringement | **Unilateral** broad indemnification covering general breach |
+| **Limitation of Liability** | Capped at aggregate 12-month contract value | **Uncapped** liability or one-sided liability exclusion |
+| **Termination** | 30 days written notice for convenience or material breach | Termination for convenience with forfeiture of prepaid fees |
+| **Governing Law** | Standard neutral commercial forum (DE / NY / UK) | Distant or unfavorable foreign jurisdiction with fee shifting |
+
+---
+
+### Contract Redline Demonstration
+
+Sample analysis of high-risk indemnity clause (`fixtures/contracts/sample_nda.txt`):
+
+```markdown
+> "Recipient shall defend, indemnify, and hold harmless Discloser from any and all claims, 
+> losses, liabilities, and expenses arising out of any breach of this Agreement."
 ```
 
-## Features
+**Legal Analyst Risk Assessment:**
+- **Risk Tier**: **CRITICAL** (Unilateral & Uncapped)
+- **Recommendation**: Redline to mutual indemnity, insert 1x annual fee liability cap, and limit damages strictly to third-party direct claims.
 
-- **Automated Clause Segmentation**: Identifies Indemnification, Limitation of Liability, Termination, and Governing Law.
-- **Unilateral Exposure Warning**: Highlights dangerous uncapped indemnity language (`without monetary limitation`).
-- **Benchmark Fixture**: Pre-loaded with bilateral Non-Disclosure Agreement (NDA) sample.
+---
 
-## Directory Structure
-
-```
-lex-contract-analyst/
-├── agent.yaml                       # OpenGAP 0.1.0 Manifest
-├── EXPLAINABILITY.md                # 7-checkpoint legal NLP provenance
-├── parsers/
-│   └── clause_segmenter.py          # Clause parsing and risk classification
-├── ontologies/
-│   └── contract_clauses.yaml        # Standard commercial clause definitions
-├── fixtures/
-│   └── contracts/
-│       └── sample_nda.txt           # Benchmark contract fixture
-├── docs/
-│   └── legal_clause_taxonomy.md     # Legal risk taxonomy reference
-├── tests/
-│   └── test_agent.py                # Contract NLP test suite
-├── analyze.py                          # Legal intelligence CLI
-└── requirements.txt
-```
-
-## Quick Start
+### Legal Analytics CLI
 
 ```bash
-# Run contract parsing tests
-pytest tests/ -v
-
-# Analyze benchmark NDA sample
+# Analyze benchmark commercial agreement
 python analyze.py --demo
+
+# Run legal clause segmentation unit tests
+pytest tests/ -v
 ```
+
+Full legal clause ontology definitions and attorney oversight notices are maintained in [LEGAL_NOTICE.md](LEGAL_NOTICE.md) and `ontologies/contract_clauses.yaml`.
